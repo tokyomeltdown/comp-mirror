@@ -85,7 +85,12 @@ html.is-free .paid,html.is-free a.btn.paid{display:none}
 body.lang-ja .hero h1{font-size:clamp(32px,5.6vw,60px);line-height:1.14;letter-spacing:-.01em}
 .hero p.lede{color:var(--sub);font-size:clamp(17px,2vw,20px);max-width:34em}
 .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px}
-.offer{font-size:15px;font-weight:600;color:var(--cutText);margin-top:16px}
+.offer{font-size:17px;font-weight:600;color:var(--sub);margin-top:18px}
+.offer b{font-size:22px;font-weight:700;color:var(--cutText);margin:0 4px}
+/* What it will cost, struck through by the accent the page keeps for it. */
+.was{font-weight:500;color:var(--muted);text-decoration:line-through;text-decoration-color:var(--boost);text-decoration-thickness:.1em}
+.btn .was{color:rgba(236,238,240,.62);margin-right:2px}
+.price .was{font-size:.52em;letter-spacing:-.02em;margin-right:.3em;vertical-align:.1em}
 .fine{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:var(--muted);margin-top:16px}
 
 /* ---------------- the demo: the plug-in drawn, with a stand-in compressor ---------------- */
@@ -210,6 +215,7 @@ footer a:hover{color:var(--ink)}
   .ph{grid-template-columns:1fr;padding:8px 12px}
   .ph .group{justify-content:flex-start;gap:28px}
   .ph .group .fig{flex:1 1 0}
+  .top .was{display:none}
   .wrap{padding:0 16px}
 }
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
@@ -228,7 +234,7 @@ footer a:hover{color:var(--ink)}
   <div class="right">
     <div class="lang"><button id="btn-en" class="on" aria-pressed="true">EN</button><button id="btn-ja" aria-pressed="false">日本語</button></div>
     <a class="btn solid paid" href="https://tokyomeltdown.gumroad.com/l/compmirror" target="_blank" rel="noopener"><span class="en">Buy $18</span><span class="ja">購入 $18</span></a>
-    <a class="btn solid free" href="https://tokyomeltdown.gumroad.com/l/compmirror/COMPMIRROR" target="_blank" rel="noopener"><span class="en">Get it free</span><span class="ja">無料で入手</span></a>
+    <a class="btn solid free" href="https://tokyomeltdown.gumroad.com/l/compmirror/COMPMIRROR" target="_blank" rel="noopener"><s class="was">$18</s> <span class="en">Get it free</span><span class="ja">無料で入手</span></a>
   </div>
 </div></header>
 
@@ -246,7 +252,7 @@ footer a:hover{color:var(--ink)}
     <a class="btn solid big free" href="https://tokyomeltdown.gumroad.com/l/compmirror/COMPMIRROR" target="_blank" rel="noopener"><span class="en">Get it free</span><span class="ja">無料で入手する</span></a>
     <a class="btn ghost big dl" href="https://github.com/tokyomeltdown/comp-mirror/releases/latest/download/CompMirror.pkg"><span class="en">Try 14 days free</span><span class="ja">14日間ためす</span></a>
   </div>
-  <p class="offer free"><span class="en">Free until December 8, then $18</span><span class="ja">12月8日まで無料、以降 $18</span></p>
+  <p class="offer free"><s class="was">$18</s> <b><span class="en">Free</span><span class="ja">無料</span></b> <span class="en">until December 8, then $18</span><span class="ja">12月8日まで。以降 $18</span></p>
   <p class="fine">macOS 12+ · Apple silicon &amp; Intel · <span class="en">Signed &amp; notarized</span><span class="ja">署名・公証済み</span></p>
 
   <!-- A drawing of the plug-in rather than a screenshot, in its colours and
@@ -326,7 +332,7 @@ footer a:hover{color:var(--ink)}
   <div>
     <div class="k"><span class="en">AU, VST3 and AAX, one licence</span><span class="ja">AU・VST3・AAX、1 つのライセンスで</span></div>
     <div class="price paid">$18</div>
-    <div class="price free"><span class="en">Free</span><span class="ja">無料</span></div>
+    <div class="price free"><s class="was">$18</s><span class="en">Free</span><span class="ja">無料</span></div>
     <p class="until free"><span class="en">until December 8, then $18</span><span class="ja">12月8日まで。以降 $18</span></p>
     <ul>
       <li class="paid"><span class="en">One-time</span><span class="ja">買い切り</span></li>
