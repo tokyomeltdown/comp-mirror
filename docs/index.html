@@ -167,9 +167,9 @@ footer a:hover{color:var(--ink)}
   .ph{grid-template-columns:1fr 1fr;gap:10px 12px}
   .ph .logo{grid-column:1/-1}
   .ph .group{gap:12px;justify-content:space-between}
-  .fig{text-align:left;min-width:0}
-  .fig .tip{left:0;right:auto;width:220px}
-  .ph .group.second .fig .tip{left:auto;right:0}
+  .ph{position:relative}
+  .fig{position:static;text-align:left;min-width:0}
+  .fig .tip{left:12px;right:12px;top:calc(100% + 2px);width:auto}
   .plots{grid-template-columns:1fr}
   #cv{--ar:1.5/1}
   #hv{--ar:1.9/1;border-left:0;border-top:1px solid rgba(60,66,72,.12)}
@@ -185,6 +185,13 @@ footer a:hover{color:var(--ink)}
   .knob svg{width:96px;height:90px}
   .brand span{display:none}
   .top .inner{padding:10px 16px}
+}
+/* The narrowest phones: the two pairs of figures, one over the other. */
+@media(max-width:380px){
+  .ph{grid-template-columns:1fr;padding:8px 12px}
+  .ph .group{justify-content:flex-start;gap:28px}
+  .ph .group .fig{flex:1 1 0}
+  .wrap{padding:0 16px}
 }
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
@@ -229,7 +236,7 @@ footer a:hover{color:var(--ink)}
   <div class="demo">
     <div class="inserts">
       <span class="k"><span class="en">Inserts</span><span class="ja">インサート</span></span>
-      <span class="slots"><span class="slot me">Comp Mirror</span><span class="arr">→</span><span class="slot"><span class="en">Compressor</span><span class="ja">コンプ</span></span><span class="arr">→</span><span class="slot me">Comp Mirror</span></span>
+      <span class="slots"><span class="slot me">Comp Mirror</span><span class="arr">→</span><span class="slot">Analog Compressor</span><span class="arr">→</span><span class="slot me">Comp Mirror</span></span>
       <span class="say2"><span class="en">One before your compressor, one after</span><span class="ja">コンプの前後に 1 つずつ</span></span>
     </div>
     <div class="win">
@@ -255,9 +262,9 @@ footer a:hover{color:var(--ink)}
     </div>
     <div class="gap"></div>
     <div class="win cowin">
-      <div class="tbar dark"><i></i><i></i><i></i><span><span class="en">Compressor (a stand-in)</span><span class="ja">コンプ（デモ用）</span></span></div>
+      <div class="tbar dark"><i></i><i></i><i></i><span>Analog Compressor</span></div>
       <div class="cobody">
-        <div class="cohead"><span class="t">COMPRESSOR</span><span class="v">DEMO<i></i></span></div>
+        <div class="cohead"><span class="t">ANALOG COMPRESSOR</span><span class="v">TOKYOMELTDOWN<i></i></span></div>
         <div class="knobs">
           <div class="knob" data-p="thr"></div>
           <div class="knob" data-p="ratio"></div>
@@ -266,7 +273,7 @@ footer a:hover{color:var(--ink)}
         </div>
       </div>
     </div>
-    <div class="say"><span class="k"><span class="en">A drawing of the plug-in</span><span class="ja">プラグインの画面を描いたものです</span></span></div>
+    <div class="say"><span class="k"><span class="en">A drawing of the plug-in and a demo compressor</span><span class="ja">プラグインとデモ用のコンプを描いたものです</span></span></div>
   </div>
 
   <figure class="shot">
