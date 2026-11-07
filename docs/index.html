@@ -23,6 +23,13 @@
 <meta name="twitter:image" content="https://tokyomeltdown.github.io/comp-mirror/og-image.png">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="icon.png" type="image/png">
+<script>
+/* The launch offer: free with the code until the end of December 8 everywhere
+   on earth (midnight in California, 08:00 UTC on the 9th), the page going back
+   to $18 by itself. The code on Gumroad has to end no earlier than this. To
+   take the offer out for good, delete this script and every .free. */
+(function(){ if (Date.now() < Date.UTC(2026, 11, 9, 8, 0, 0)) document.documentElement.classList.add('is-free'); })();
+</script>
 <style>
 /* The same family as the hub and EQ Mirror: hairline grid, small spaced-out
    mono labels, plain buttons. The ground is light because the plug-in is.
@@ -48,6 +55,12 @@ a{color:inherit;text-decoration:none}
 .en,.ja{display:none}
 body.lang-en .en{display:initial} body.lang-ja .ja{display:initial}
 
+/* Stronger than .btn, which comes later and would show the buttons again. */
+.free,a.btn.free{display:none}
+html.is-free .free{display:revert}
+html.is-free a.btn.free{display:inline-flex}
+html.is-free .paid,html.is-free a.btn.paid{display:none}
+
 .k{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
 
 /* ---------------- top bar ---------------- */
@@ -72,6 +85,7 @@ body.lang-en .en{display:initial} body.lang-ja .ja{display:initial}
 body.lang-ja .hero h1{font-size:clamp(32px,5.6vw,60px);line-height:1.14;letter-spacing:-.01em}
 .hero p.lede{color:var(--sub);font-size:clamp(17px,2vw,20px);max-width:34em}
 .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px}
+.offer{font-size:15px;font-weight:600;color:var(--cutText);margin-top:16px}
 .fine{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:var(--muted);margin-top:16px}
 
 /* ---------------- the demo: the plug-in drawn, with a stand-in compressor ---------------- */
@@ -144,6 +158,7 @@ body.lang-ja .hero h1{font-size:clamp(32px,5.6vw,60px);line-height:1.14;letter-s
 /* ---------------- price ---------------- */
 .buy{padding:96px 0 0;display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:end}
 .buy .price{font-size:clamp(56px,8vw,88px);font-weight:700;letter-spacing:-.04em;line-height:1;margin-top:14px}
+.buy .until{color:var(--cutText);font-weight:600;font-size:15px;margin-top:10px}
 .buy ul{list-style:none;display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:16px;font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--sub)}
 .buy .side p{color:var(--sub);font-size:15px;margin-bottom:22px}
 
@@ -212,7 +227,8 @@ footer a:hover{color:var(--ink)}
     <span><b>Comp</b> Mirror</span></a>
   <div class="right">
     <div class="lang"><button id="btn-en" class="on" aria-pressed="true">EN</button><button id="btn-ja" aria-pressed="false">日本語</button></div>
-    <a class="btn solid" href="https://tokyomeltdown.gumroad.com/l/compmirror" target="_blank" rel="noopener"><span class="en">Buy $18</span><span class="ja">購入 $18</span></a>
+    <a class="btn solid paid" href="https://tokyomeltdown.gumroad.com/l/compmirror" target="_blank" rel="noopener"><span class="en">Buy $18</span><span class="ja">購入 $18</span></a>
+    <a class="btn solid free" href="https://tokyomeltdown.gumroad.com/l/compmirror/COMPMIRROR" target="_blank" rel="noopener"><span class="en">Get it free</span><span class="ja">無料で入手</span></a>
   </div>
 </div></header>
 
@@ -226,9 +242,11 @@ footer a:hover{color:var(--ink)}
     <span class="ja">コンプが実際にしていることを、音から測って描きます。コンプの前と後ろに Comp Mirror を 1 つずつ挿すだけです。</span>
   </p>
   <div class="cta">
-    <a class="btn solid big" href="https://tokyomeltdown.gumroad.com/l/compmirror" target="_blank" rel="noopener"><span class="en">Buy — $18</span><span class="ja">購入する — $18</span></a>
+    <a class="btn solid big paid" href="https://tokyomeltdown.gumroad.com/l/compmirror" target="_blank" rel="noopener"><span class="en">Buy — $18</span><span class="ja">購入する — $18</span></a>
+    <a class="btn solid big free" href="https://tokyomeltdown.gumroad.com/l/compmirror/COMPMIRROR" target="_blank" rel="noopener"><span class="en">Get it free</span><span class="ja">無料で入手する</span></a>
     <a class="btn ghost big dl" href="https://github.com/tokyomeltdown/comp-mirror/releases/latest/download/CompMirror.pkg"><span class="en">Try 14 days free</span><span class="ja">14日間ためす</span></a>
   </div>
+  <p class="offer free"><span class="en">Free until December 8, then $18</span><span class="ja">12月8日まで無料、以降 $18</span></p>
   <p class="fine">macOS 12+ · Apple silicon &amp; Intel · <span class="en">Signed &amp; notarized</span><span class="ja">署名・公証済み</span></p>
 
   <!-- A drawing of the plug-in rather than a screenshot, in its colours and
@@ -307,18 +325,22 @@ footer a:hover{color:var(--ink)}
 <section class="buy" id="buy">
   <div>
     <div class="k"><span class="en">AU, VST3 and AAX, one licence</span><span class="ja">AU・VST3・AAX、1 つのライセンスで</span></div>
-    <div class="price">$18</div>
+    <div class="price paid">$18</div>
+    <div class="price free"><span class="en">Free</span><span class="ja">無料</span></div>
+    <p class="until free"><span class="en">until December 8, then $18</span><span class="ja">12月8日まで。以降 $18</span></p>
     <ul>
-      <li><span class="en">One-time</span><span class="ja">買い切り</span></li>
+      <li class="paid"><span class="en">One-time</span><span class="ja">買い切り</span></li>
       <li><span class="en">5 Macs</span><span class="ja">5台まで</span></li>
       <li><span class="en">No subscription</span><span class="ja">サブスクなし</span></li>
       <li><span class="en">Free updates</span><span class="ja">無料アップデート</span></li>
     </ul>
   </div>
   <div class="side">
+    <p class="free"><span class="en">Get your licence key free until December 8. It keeps working after that, updates included.</span><span class="ja">12月8日までは、ライセンスキーを無料で受け取れます。その後も使い続けられ、アップデートも無料です。</span></p>
     <p><span class="en">Every feature, free for 14 days. No account.<br>When the trial ends, measuring stops and the sound keeps playing.</span><span class="ja">14日間、すべての機能を試せます。アカウントは要りません。<br>トライアルが終了すると測定は止まりますが、音はそのまま流れ続けます。</span></p>
     <div class="cta" style="margin-top:0">
-      <a class="btn solid big" href="https://tokyomeltdown.gumroad.com/l/compmirror" target="_blank" rel="noopener"><span class="en">Buy — $18</span><span class="ja">購入する — $18</span></a>
+      <a class="btn solid big paid" href="https://tokyomeltdown.gumroad.com/l/compmirror" target="_blank" rel="noopener"><span class="en">Buy — $18</span><span class="ja">購入する — $18</span></a>
+      <a class="btn solid big free" href="https://tokyomeltdown.gumroad.com/l/compmirror/COMPMIRROR" target="_blank" rel="noopener"><span class="en">Get it free</span><span class="ja">無料で入手する</span></a>
       <a class="btn ghost big dl" href="https://github.com/tokyomeltdown/comp-mirror/releases/latest/download/CompMirror.pkg"><span class="en">Download the trial</span><span class="ja">トライアルをダウンロード</span></a>
     </div>
   </div>
