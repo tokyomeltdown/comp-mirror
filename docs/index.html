@@ -93,20 +93,24 @@ body.lang-ja .hero h1{font-size:clamp(32px,5.6vw,60px);line-height:1.14;letter-s
 
 /* The window's header: the name, then the figures in two pairs, each pair
    over the plot it comes from (the plug-in's figureArea). */
-.ph{display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:center;gap:0 28px;min-height:62px;padding:8px 18px;color:#3c4248;background:var(--panel)}
-.ph .logo{display:flex;align-items:center;gap:8px;font-size:15px}
-.ph .logo b{font-weight:700}
-.ph .group{display:flex;gap:26px}
-.fig{position:relative;text-align:right;cursor:default;min-width:64px}
-.fig .n{font-size:9.5px;letter-spacing:.08em;color:#878e96;font-weight:500;white-space:nowrap}
-.fig .v{font-size:19px;font-weight:600;color:#3c4248;font-variant-numeric:tabular-nums;line-height:1.2;white-space:nowrap}
-.fig .v small{font-size:10.5px;font-weight:400;color:#878e96;margin-left:3px}
+.ph{position:relative;height:66px;color:#3c4248;background:#e9eaec}
+.ph .logo{position:absolute;left:18px;top:50%;transform:translateY(-50%);display:flex;align-items:center;gap:8px;font-size:15px}
+.ph .logo span{color:#6f767e}
+.ph .logo b{font-weight:700;color:#3c4248}
+.ph .group{position:absolute;top:50%;transform:translateY(-50%);right:26.55%;display:flex;gap:26px}
+.ph .group.second{right:3.27%}
+.fig{position:relative;text-align:right;cursor:default}
+.ph .group .fig{min-width:58px}
+.ph .group.second .fig{min-width:84px}
+.fig .n{font-size:10px;color:#878e96;font-weight:700;white-space:nowrap}
+.fig .v{font-size:19px;font-weight:700;color:#3c4248;font-variant-numeric:tabular-nums;line-height:1.2;white-space:pre}
+.fig .v small{font-size:10.5px;font-weight:400;color:#878e96;margin-left:4px;white-space:pre}
 .fig .tip{position:absolute;right:0;top:calc(100% + 8px);width:250px;padding:10px 12px;border-radius:8px;background:#fff;box-shadow:0 10px 30px -12px rgba(27,31,35,.45),0 0 0 1px rgba(27,31,35,.1);font-size:12px;line-height:1.45;color:#3c4248;text-align:left;font-weight:400;opacity:0;visibility:hidden;transition:opacity .15s;z-index:5;pointer-events:none}
 .fig:hover .tip,.fig:focus .tip{opacity:1;visibility:visible}
 .plots{display:grid;grid-template-columns:820fr 280fr;background:var(--panel);border-radius:0 0 12px 12px;overflow:hidden}
 .plots canvas{display:block;width:100%;aspect-ratio:var(--ar)}
 #cv{--ar:820/494}
-#hv{--ar:280/494;border-left:1px solid rgba(60,66,72,.12)}
+#hv{--ar:280/494}
 
 .gap{height:18px}
 /* The stand-in compressor: a dark panel with four knobs, its own window. */
@@ -164,15 +168,15 @@ footer a:hover{color:var(--ink)}
   .three>div+div,.spec>div+div{border-top:1px solid var(--line)}
   .buy{grid-template-columns:1fr;gap:12px}
   .hero{padding-top:64px}
-  .ph{grid-template-columns:1fr 1fr;gap:10px 12px}
-  .ph .logo{grid-column:1/-1}
-  .ph .group{gap:12px;justify-content:space-between}
-  .ph{position:relative}
+  .ph{height:auto;display:grid;grid-template-columns:1fr 1fr;gap:10px 12px;padding:10px 16px}
+  .ph .logo{position:static;transform:none;grid-column:1/-1}
+  .ph .group,.ph .group.second{position:static;transform:none;gap:12px;justify-content:space-between}
+  .ph .group .fig,.ph .group.second .fig{min-width:0}
   .fig{position:static;text-align:left;min-width:0}
   .fig .tip{left:12px;right:12px;top:calc(100% + 2px);width:auto}
   .plots{grid-template-columns:1fr}
   #cv{--ar:1.5/1}
-  #hv{--ar:1.9/1;border-left:0;border-top:1px solid rgba(60,66,72,.12)}
+  #hv{--ar:1.9/1;border-top:3px solid #e9eaec}
 }
 @media(max-width:620px){
   .cobody{padding:14px 12px 12px}
@@ -343,7 +347,7 @@ footer a:hover{color:var(--ink)}
   </div>
 </section>
 
-<p class="more"><a href="https://tokyomeltdown.github.io/eq-mirror/" target="_blank" rel="noopener"><span class="en">The same idea for your EQ: EQ Mirror →</span><span class="ja">EQ なら EQ Mirror →</span></a></p>
+<p class="more"><a href="https://tokyomeltdown.github.io/" target="_blank" rel="noopener"><span class="en">See more tools →</span><span class="ja">ほかのツールを見る →</span></a></p>
 
 </main>
 
@@ -396,13 +400,14 @@ footer a:hover{color:var(--ink)}
   });
 
   /* ------------------------------------------------ the music: a drawn level, one column per 2 ms */
-  var COL = 0.002, RATE = 1 / COL, BEAT = 0.5;           // 120 bpm
-  var LOOP = Math.round(16 * BEAT / COL);                // four bars of 4/4
+  var COL = 0.002, RATE = 1 / COL, BEAT = 0.5;           // 120 bpm; the plug-in's column is 2 ms too
+  var LOOP = Math.round(32 * BEAT / COL);                // eight bars of 4/4
   var level = new Float32Array(LOOP), onset = new Uint8Array(LOOP);
+  function noise(i){ var x = Math.sin(i * 12.9898) * 43758.5453; return x - Math.floor(x); }
   (function(){
-    function noise(i){ var x = Math.sin(i * 12.9898) * 43758.5453; return x - Math.floor(x); }
     // Power added up: a hit is an attack of 2 ms and a decay.
-    var power = new Float32Array(LOOP);
+    var power = new Float32Array(LOOP), seed = 1;
+    function vary(){ seed += 1; return noise(seed * 7.13) - .5; }
     function hit(beat, db, decay, mark){
       var at = Math.round(beat * BEAT / COL), a = Math.pow(10, db / 10);
       if (mark) onset[at % LOOP] = 1;
@@ -414,58 +419,82 @@ footer a:hover{color:var(--ink)}
     var i, bars = LOOP * COL / (4 * BEAT);
     for (var b = 0; b < bars; b++){
       var o = b * 4;
-      hit(o + 0,    -6,  .11, true);  hit(o + 2,    -7,  .11, true);
-      hit(o + 1,    -8,  .09, true);  hit(o + 3,    -8,  .09, true);
-      if (b % 2) hit(o + 2.5, -9, .09, true);
-      else hit(o + 3.5, -10, .07, true);
-      for (var e = 0; e < 8; e++) hit(o + e / 2 + .25, -23, .03, false);
+      // No two hits alike, and the bars not all the same.
+      hit(o + 0,    -6 + 2 * vary(),   .11 + .03 * vary(), true);
+      hit(o + 1,    -8 + 2.4 * vary(), .09 + .03 * vary(), true);
+      hit(o + 2,    -7 + 2 * vary(),   .11 + .03 * vary(), true);
+      hit(o + 3,    -8 + 2.4 * vary(), .09 + .03 * vary(), true);
+      if (b % 4 === 1) hit(o + 2.5,  -10 + 3 * vary(), .08, true);
+      if (b % 4 === 2) hit(o + 1.75, -13 + 3 * vary(), .07, true);
+      if (b % 4 === 3){ hit(o + 3.5, -11 + 3 * vary(), .07, true); hit(o + 3.75, -12 + 3 * vary(), .06, true); }
+      for (var e = 0; e < 8; e++) hit(o + e / 2 + .25, -24 + 4 * vary(), .03, false);
     }
-    // A bed under the hits, moving slowly.
+    // A bed under the hits, moving slowly, and its chords changing by the bar.
     for (i = 0; i < LOOP; i++){
-      var bed = -22 + 2.5 * Math.sin(2 * Math.PI * i / LOOP * 3) + 1.5 * Math.sin(2 * Math.PI * i / LOOP * 7);
-      level[i] = 10 * Math.log10(power[i] + Math.pow(10, bed / 10)) + (noise(i) - .5) * .9;
+      var bar = Math.floor(i * COL / (4 * BEAT));
+      var bed = -21 + 3 * (noise(bar + 40) - .5) * 2 + 2 * Math.sin(2 * Math.PI * i / LOOP * 5) + 1.2 * Math.sin(2 * Math.PI * i / LOOP * 13);
+      level[i] = 10 * Math.log10(power[i] + Math.pow(10, bed / 10)) + (noise(i) - .5) * 1.4;
     }
   })();
 
   /* ------------------------------------------------ the stand-in compressor, on that level */
   var S = { thr: -18, ratio: 4, att: 10, rel: 120 };
   var DEF = { thr: -18, ratio: 4, att: 10, rel: 120 };
-  var pos = 0, gain = 0, smooth = 0;
+  var pos = 0, gain = 0, clock = 0;
   var VIEW = Math.round(4 / COL);                        // the last four seconds on screen
   var R_gain = new Float32Array(VIEW), R_before = new Float32Array(VIEW), R_after = new Float32Array(VIEW), head = 0;
 
-  var HIT_COLS = Math.round(.4 / COL), SLOTS = 16, LAST = 8;
-  var hits = [], active = null;
+  // As HitAnalyser and HitShapes: from 10 ms before the onset to 400 ms, each
+  // hit ending at the next onset; depth in 300 ms, the shave at the input's
+  // peak in the first 20 ms, and nothing under 1 dB counts as a hit.
+  var PRE = 5, HIT_COLS = PRE + 200, DEPTH_COLS = 150, SHAVE_COLS = 10, MIN_DEPTH = 1;
+  var SLOTS = 16, LAST = 8;
+  var hits = [], active = null, past = new Float32Array(PRE), pastAt = 0;
 
   function finishHit(){
     if (!active) return;
-    var h = active; active = null;
-    if (h.n < 20) return;
-    var deepest = 0, peak = -999, at = 0;
-    for (var i = 0; i < h.n; i++){
-      if (h.shape[i] < deepest) deepest = h.shape[i];
-      if (h.lvl[i] > peak){ peak = h.lvl[i]; at = i; }
-    }
+    var h = active, i; active = null;
+    if (h.n < PRE + 10) return;
+    var deepest = 0, peak = -999, at = PRE, top = -999;
+    for (i = PRE; i < Math.min(h.n, PRE + DEPTH_COLS); i++) if (h.shape[i] < deepest) deepest = h.shape[i];
+    if (-deepest < MIN_DEPTH) return;
+    for (i = PRE; i < Math.min(h.n, PRE + SHAVE_COLS); i++) if (h.lvl[i] > peak){ peak = h.lvl[i]; at = i; }
+    for (i = 0; i < h.n; i++) if (h.lvl[i] > top) top = h.lvl[i];
+    for (i = 0; i < h.n; i++) h.lvl[i] -= top;           // relative to its loudest
     h.depth = -deepest; h.shave = -h.shape[at];
+    // Smoothed as the panel smooths them: less in the first 20 ms.
+    var out = new Float32Array(HIT_COLS).fill(NaN);
+    for (i = 0; i < h.n; i++){
+      var half = i < PRE + 10 ? 1 : 2, sum = 0, c = 0;
+      for (var q = Math.max(0, i - half); q <= Math.min(h.n - 1, i + half); q++){ sum += h.shape[q]; c++; }
+      out[i] = sum / c;
+    }
+    h.shape = out;
     hits.push(h); if (hits.length > SLOTS) hits.shift();
   }
 
   function step(){
     pos = (pos + 1) % LOOP;
+    clock += COL;
     var L = level[pos], over = Math.max(0, L - S.thr), target = -over * (1 - 1 / S.ratio);
     var tc = target < gain ? S.att : S.rel, a = Math.exp(-COL * 1000 / tc);
     if (onset[pos]){
       finishHit();
-      active = { g0: gain, n: 0, shape: new Float32Array(HIT_COLS), lvl: new Float32Array(HIT_COLS) };
+      var g0 = gain, shape = new Float32Array(HIT_COLS).fill(NaN), lvl = new Float32Array(HIT_COLS).fill(NaN);
+      for (var k = 0; k < PRE; k++){
+        var c = (pastAt + k) % PRE;
+        shape[k] = past[c] - g0;
+        lvl[k] = R_before[(head - PRE + k + VIEW) % VIEW];
+      }
+      active = { g0: g0, n: PRE, shape: shape, lvl: lvl };
     }
     gain = a * gain + (1 - a) * target;
-    // As the plug-in's line: smoothed over about 10 ms.
-    smooth += (gain - smooth) * (1 - Math.exp(-COL / .01));
+    past[pastAt] = gain; pastAt = (pastAt + 1) % PRE;
     if (active){
       active.shape[active.n] = gain - active.g0; active.lvl[active.n] = L; active.n++;
       if (active.n >= HIT_COLS) finishHit();
     }
-    R_gain[head] = smooth; R_before[head] = L; R_after[head] = L + gain;
+    R_gain[head] = gain; R_before[head] = L; R_after[head] = L + gain;
     head = (head + 1) % VIEW;
   }
 
@@ -487,8 +516,7 @@ footer a:hover{color:var(--ink)}
   function pm(el, a){
     var m = median(a), sp = spread(a, m);
     el.textContent = fmt1(m);
-    var small = el.parentNode.querySelector('small');
-    small.textContent = 'dB ±' + sp.toFixed(1);
+    el.parentNode.querySelector('small').textContent = 'dB  ±' + sp.toFixed(1);
   }
   function figures(){
     var sum = 0;
@@ -503,12 +531,13 @@ footer a:hover{color:var(--ink)}
   }
 
   /* ------------------------------------------------ the two plots */
-  // Fractions of the plot, from the window's 1100 x 560 layout (66 to 560 down).
-  var TOP = 26 / 494, SPLIT = 272.4 / 494, LANE = 280.4 / 494, FLOOR = 474 / 494;
-  var C = { grid:'rgba(154,160,168,', zero:'#7c848e', sub:'#878e96', curve:'#2b3238', cut:'#2f9088', before:'#b9bec4', after:'#5c636b', text:'#3c4248' };
+  // From the window's layout at 1100 x 560: the plot runs from 66 down, 0 dB
+  // at 92, the reduction's band to 338.4, the waveforms from 346.4 to 540.
+  var TOP = 26 / 494, SPLIT = 272.4 / 494, FLOOR = 474 / 494;
+  var C = { zero:'rgba(124,132,142,', grid:'rgba(154,160,168,', sub:'#878e96', curve:'#2b3238', cut:'47,144,136', before:'185,190,196', after:'92,99,107', back:'#e9eaec' };
   var cv = document.getElementById('cv'), hv = document.getElementById('hv');
   var cx = cv.getContext('2d'), hx = hv.getContext('2d');
-  var CW = 0, CH = 0, HW = 0, HH = 0, DPR = 1, floorDb = 24, shownFloor = 24;
+  var CW = 0, CH = 0, HW = 0, HH = 0, DPR = 1, floorDb = 24, shownFloor = 24, neededAt = 0;
 
   function resize(){
     DPR = Math.min(window.devicePixelRatio || 1, 2);
@@ -518,157 +547,229 @@ footer a:hover{color:var(--ink)}
     hv.width = Math.round(HW * DPR); hv.height = Math.round(HH * DPR);
     cx.setTransform(DPR, 0, 0, DPR, 0, 0); hx.setTransform(DPR, 0, 0, DPR, 0, 0);
   }
-  function font(g, px, mono){ g.font = (mono ? '' : '500 ') + px + 'px -apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif'; }
-  function label(g, s, x, y){
-    // Spaced capitals, as the window's plot titles.
-    font(g, 9.5); g.fillStyle = C.sub; g.textAlign = 'left'; g.textBaseline = 'middle';
-    if ('letterSpacing' in g) g.letterSpacing = '0.8px';
-    g.fillText(s, x, y);
-    if ('letterSpacing' in g) g.letterSpacing = '0px';
+  var FONT = '-apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif';
+  function title(g, s, x, right){
+    g.font = '700 10px ' + FONT; g.fillStyle = C.sub; g.textAlign = right ? 'right' : 'left'; g.textBaseline = 'middle';
+    g.fillText(s, x, 15);
   }
   function topY(H){ return Math.max(TOP * H, 26); }
   function floorY(H){ return Math.min(FLOOR * H, H - 20); }
-  function gainY(db, H){
-    var top = topY(H), bottom = SPLIT * H - 10;
-    return top + (-db / shownFloor) * (bottom - top);
-  }
-  function scale(g, H, left, right, labelX){
-    font(g, 10.5); g.textAlign = 'right'; g.textBaseline = 'middle';
-    for (var d = 0; d <= shownFloor + .01; d += (shownFloor > 36 ? 12 : 6)){
-      var y = gainY(-d, H);
-      if (d > 0 && y < SPLIT * H - 2 + 8){
-        g.strokeStyle = C.grid + '.25)'; g.lineWidth = 1;
-        g.beginPath(); g.moveTo(left, Math.round(y) + .5); g.lineTo(right, Math.round(y) + .5); g.stroke();
-      }
+  function splitY(H){ return SPLIT * H; }
+  function zoomOf(W, w){ return Math.min(1, W / w); }
+  function dbPx(H, s){ return (splitY(H) - topY(H) - 10 * s) / shownFloor; }
+
+  /** The dB lines, to the end of the plot, the figures past it. */
+  function scale(g, H, s, left, right){
+    var ppdb = dbPx(H, s), top = topY(H), stepDb = shownFloor > 36.5 ? 12 : 6;
+    g.font = '11px ' + FONT; g.textAlign = 'left'; g.textBaseline = 'middle';
+    for (var d = 0; d <= shownFloor + .01; d += stepDb){
+      var y = top + d * ppdb;
+      g.fillStyle = d === 0 ? C.zero + '.8)' : C.grid + '.3)';
+      g.fillRect(left, y, right - left, d === 0 ? 1 : Math.max(.7, .7 * s));
       g.fillStyle = C.sub;
-      g.fillText(d === 0 ? '0' : MINUS + d, labelX, y);
+      g.fillText(d === 0 ? '0' : MINUS + d, right + 4, y + .5);
     }
-    g.strokeStyle = C.zero; g.lineWidth = 1;
-    var z = Math.round(gainY(0, H)) + .5;
-    g.beginPath(); g.moveTo(left, z); g.lineTo(right, z); g.stroke();
+  }
+
+  // Gaussian, 1.75 columns either side, centred: as the plug-in's line.
+  var GAUSS = [], REACH = 5;
+  (function(){ for (var k = 0; k <= REACH; k++) GAUSS.push(Math.exp(-.5 * (k / 1.75) * (k / 1.75))); })();
+  var evenGain = new Float32Array(VIEW);
+  function evenOut(){
+    for (var i = 0; i < VIEW; i++){
+      var sum = 0, total = 0;
+      for (var k = -REACH; k <= REACH; k++){
+        var j = i + k;
+        if (j < 0 || j >= VIEW) continue;
+        var w = GAUSS[Math.abs(k)];
+        sum += w * R_gain[(head + j) % VIEW]; total += w;
+      }
+      evenGain[i] = sum / total;
+    }
   }
 
   function drawScroll(){
-    var g = cx, W = CW, H = CH, right = W - Math.max(30, 40 * W / 820);
+    var g = cx, W = CW, H = CH, s = zoomOf(W, 820), right = W - 40 * Math.max(s, .75);
     g.clearRect(0, 0, W, H);
-    label(g, 'GAIN REDUCTION', 12, 14);
-    scale(g, H, 0, right, W - 6);
+    evenOut();
 
-    // Column at each pixel: the oldest column sits at head.
-    var px = Math.max(1, Math.floor(right)), perPx = VIEW / px, k, i, c;
+    // Columns to pixels.
+    var px = Math.max(2, Math.floor(right)), perPx = VIEW / px, k, i, c;
     var gl = new Float32Array(px), be = new Float32Array(px), af = new Float32Array(px);
     for (k = 0; k < px; k++){
       var from = Math.floor(k * perPx), to = Math.max(from + 1, Math.floor((k + 1) * perPx));
       var sumG = 0, maxB = -999, maxA = -999;
       for (i = from; i < to; i++){
         c = (head + i) % VIEW;
-        sumG += R_gain[c];
+        sumG += evenGain[i];
         if (R_before[c] > maxB) maxB = R_before[c];
         if (R_after[c] > maxA) maxA = R_after[c];
       }
       gl[k] = sumG / (to - from); be[k] = maxB; af[k] = maxA;
     }
+    function smooth3(v){
+      var o = new Float32Array(px);
+      for (var n = 0; n < px; n++){
+        var sum = 0, cnt = 0;
+        for (var j = Math.max(0, n - 1); j <= Math.min(px - 1, n + 1); j++){ sum += v[j]; cnt++; }
+        o[n] = sum / cnt;
+      }
+      return o;
+    }
+    be = smooth3(be); af = smooth3(af);
 
-    // The reduction: teal down from 0 dB, the line on it.
-    var z = gainY(0, H);
-    g.beginPath(); g.moveTo(0, z);
-    for (k = 0; k < px; k++) g.lineTo(k, gainY(gl[k], H));
-    g.lineTo(px - 1, z); g.closePath();
-    var fill = g.createLinearGradient(0, z, 0, gainY(-shownFloor / 2, H));
-    fill.addColorStop(0, 'rgba(47,144,136,.20)'); fill.addColorStop(1, 'rgba(47,144,136,.06)');
+    // The reduction: its fill from 0 dB, the line on it.
+    var top = topY(H), ppdb = dbPx(H, s), band = splitY(H);
+    function Y(db){ return top - Math.min(0, db) * ppdb; }
+    g.save(); g.beginPath(); g.rect(0, top - 4, right, band - top + 4); g.clip();
+    g.beginPath(); g.moveTo(0, top);
+    for (k = 0; k < px; k++) g.lineTo(k, Y(gl[k]));
+    g.lineTo(px - 1, top); g.closePath();
+    var fill = g.createLinearGradient(0, top, 0, band);
+    fill.addColorStop(0, 'rgba(' + C.cut + ',.10)'); fill.addColorStop(1, 'rgba(' + C.cut + ',.40)');
     g.fillStyle = fill; g.fill();
     g.beginPath();
-    for (k = 0; k < px; k++){ var y = gainY(gl[k], H); k ? g.lineTo(k, y) : g.moveTo(k, y); }
-    g.strokeStyle = C.curve; g.lineWidth = 2; g.lineJoin = 'round'; g.stroke();
+    for (k = 0; k < px; k++){ var y = Y(gl[k]); k ? g.lineTo(k, y) : g.moveTo(k, y); }
+    g.strokeStyle = C.curve; g.lineWidth = Math.max(1.8, 2.4 * s); g.lineJoin = 'round'; g.lineCap = 'round'; g.stroke();
+    g.restore();
 
-    // The music under it: grey after the compressor, teal what it took off.
-    var top = LANE * H, bottom = floorY(H), range = 36;
-    function waveY(db){ return top + Math.min(1, Math.max(0, (0 - db) / range)) * (bottom - top); }
-    g.beginPath(); g.moveTo(0, bottom);
-    for (k = 0; k < px; k++) g.lineTo(k, waveY(af[k]));
-    g.lineTo(px - 1, bottom); g.closePath();
-    var w = g.createLinearGradient(0, top, 0, bottom);
-    w.addColorStop(0, 'rgba(92,99,107,.42)'); w.addColorStop(1, 'rgba(92,99,107,.04)');
-    g.fillStyle = w; g.fill();
+    // The grid over the fill, as the labels and lines read in the window.
+    scale(g, H, s, 0, right);
+    title(g, 'GAIN REDUCTION', 18 * s);
+
+    // The music under it, full scale at the top and 48 dB below at the bottom.
+    var wTop = band + 8 * s, wBottom = floorY(H), range = 48;
+    function waveY(db){ return wBottom - Math.min(1, Math.max(0, (db + range) / range)) * (wBottom - wTop); }
     g.beginPath();
     for (k = 0; k < px; k++) g.lineTo(k, waveY(be[k]));
     for (k = px - 1; k >= 0; k--) g.lineTo(k, waveY(af[k]));
-    g.closePath(); g.fillStyle = 'rgba(47,144,136,.38)'; g.fill();
+    g.closePath(); g.fillStyle = 'rgba(' + C.cut + ',.30)'; g.fill();
+    g.beginPath(); g.moveTo(0, wBottom);
+    for (k = 0; k < px; k++) g.lineTo(k, waveY(af[k]));
+    g.lineTo(px - 1, wBottom); g.closePath();
+    var w = g.createLinearGradient(0, wTop, 0, wBottom);
+    w.addColorStop(0, 'rgba(' + C.after + ',.20)'); w.addColorStop(1, 'rgba(' + C.after + ',.04)');
+    g.fillStyle = w; g.fill();
+    var lane = (wBottom - wTop) / 190;
     g.beginPath();
     for (k = 0; k < px; k++){ var yb = waveY(be[k]); k ? g.lineTo(k, yb) : g.moveTo(k, yb); }
-    g.strokeStyle = C.before; g.lineWidth = 1; g.stroke();
+    g.strokeStyle = 'rgba(' + C.cut + ',.55)'; g.lineWidth = .9 * lane; g.stroke();
     g.beginPath();
     for (k = 0; k < px; k++){ var ya = waveY(af[k]); k ? g.lineTo(k, ya) : g.moveTo(k, ya); }
-    g.strokeStyle = C.after; g.lineWidth = 1; g.stroke();
+    g.strokeStyle = 'rgba(' + C.after + ',.60)'; g.lineWidth = 1.2 * lane; g.stroke();
   }
 
-  // The time axis of the hits, as in the window: the first 50 ms drawn wider.
-  var TX = [[0, .09], [10, .17], [50, .47], [200, .70], [400, .90]];
-  function xOfMs(ms, W){
-    for (var i = 1; i < TX.length; i++) if (ms <= TX[i][0]){
-      var a = TX[i - 1], b = TX[i];
-      return (a[1] + (ms - a[0]) / (b[0] - a[0]) * (b[1] - a[1])) * W;
-    }
-    return TX[TX.length - 1][1] * W;
-  }
+  function medianHigh(a){ var b = a.slice().sort(function(x, y){ return x - y; }); return b[b.length >> 1]; }
+
   function drawHits(){
-    var g = hx, W = HW, H = HH, right = W - 30, i, k;
+    var g = hx, W = HW, H = HH, s = zoomOf(W, 280), n, p;
     g.clearRect(0, 0, W, H);
-    label(g, 'HIT ENVELOPE', 10, 14);
-    font(g, 10); g.fillStyle = C.sub; g.textAlign = 'right'; g.textBaseline = 'middle'; g.fillText('last 16', W - 8, 14);
-    scale(g, H, 0, right, W - 6);
+    // A gap between the two pictures, in the window's own colour.
+    g.fillStyle = C.back; g.fillRect(0, 0, 3, H);
 
-    // The time lines and their labels.
-    var bottom = floorY(H);
-    font(g, 9.5); g.textAlign = 'center'; g.textBaseline = 'top';
-    TX.forEach(function(t, n){
-      var x = Math.round(t[1] * W * (right / W)) + .5;
-      g.strokeStyle = n ? C.grid + '.25)' : C.grid + '.9)'; g.lineWidth = 1;
-      g.beginPath(); g.moveTo(x, gainY(0, H)); g.lineTo(x, bottom); g.stroke();
-      g.fillStyle = C.sub;
-      g.fillText(n === TX.length - 1 ? t[0] + ' ms' : String(t[0]), Math.min(x, right - 6), bottom + 4);
-    });
-
-    if (!hits.length) return;
-    var XS = right / W;
-    function X(n){ return xOfMs(n * COL * 1000, W) * XS; }
-
-    // How loud the hits were, in grey, at the foot.
-    var top = LANE * H, n, sum = new Float32Array(HIT_COLS), cnt = new Float32Array(HIT_COLS);
-    hits.forEach(function(h){ for (n = 0; n < h.n; n++){ sum[n] += h.lvl[n]; cnt[n]++; } });
-    g.beginPath(); g.moveTo(X(0), bottom);
-    for (n = 0; n < HIT_COLS; n += 2){
-      if (!cnt[n]) break;
-      g.lineTo(X(n), top + Math.min(1, -(sum[n] / cnt[n]) / 36) * (bottom - top));
+    var x0 = 18 * Math.max(s, .75), x1 = W - 36 * Math.max(s, .75), top = topY(H), band = splitY(H), bottom = floorY(H);
+    var ppdb = dbPx(H, s), levelTop = band + 8 * s;
+    // Two parts: the 10 ms before the onset and the first 50 ms on the left
+    // half, the rest to 400 ms on the right.
+    function xOf(t){
+      var half = .5 * (x1 - x0);
+      return t <= 50 ? x0 + (t + 10) / 60 * half : x0 + half + (t - 50) / 350 * half;
     }
-    g.lineTo(X(Math.max(0, n - 2)), bottom); g.closePath();
-    g.fillStyle = 'rgba(185,190,196,.6)'; g.fill();
+    function tOf(col){ return (col - PRE) * COL * 1000; }
 
-    // Each hit, thin; the typical one, thick.
-    hits.forEach(function(h, age){
-      g.beginPath();
-      for (n = 0; n < h.n; n += 2){ var y = gainY(h.shape[n], H); n ? g.lineTo(X(n), y) : g.moveTo(X(n), y); }
-      g.strokeStyle = 'rgba(47,144,136,' + (.25 + .4 * age / SLOTS) + ')'; g.lineWidth = 1; g.lineJoin = 'round'; g.stroke();
-    });
+    title(g, 'HIT ENVELOPE', x0);
+    g.font = '10px ' + FONT; g.textAlign = 'right'; g.fillText('last ' + SLOTS, x1, 15);
+
+    n = hits.length;
+    if (!n){
+      g.font = '11px ' + FONT; g.textAlign = 'center'; g.fillText('waiting for hits', W / 2, H / 2);
+      return;
+    }
+
+    // The median, only while two thirds of the hits are still in.
+    var medShape = new Float32Array(HIT_COLS).fill(NaN), medLevel = new Float32Array(HIT_COLS).fill(NaN);
+    var ended = false, firstGone = NaN, lastShown = NaN;
+    for (p = 0; p < HIT_COLS; p++){
+      var vs = [], ls = [];
+      hits.forEach(function(h){
+        if (!isNaN(h.shape[p])) vs.push(h.shape[p]);
+        if (!isNaN(h.lvl[p])) ls.push(h.lvl[p]);
+      });
+      var t = tOf(p);
+      ended = ended || (t > 0 && vs.length * 3 < n * 2);
+      if (t > 0 && vs.length < n && isNaN(firstGone)) firstGone = t;
+      if (!ended && vs.length){ medShape[p] = medianHigh(vs); lastShown = t; }
+      if (ls.length) medLevel[p] = medianHigh(ls);
+    }
+
+    // The input's level, faint, from the bottom: -30 dB to its loudest.
     g.beginPath();
-    var started = false;
-    for (n = 0; n < HIT_COLS; n += 2){
-      var vals = [];
-      hits.forEach(function(h){ if (n < h.n) vals.push(h.shape[n]); });
-      if (vals.length < Math.max(1, hits.length / 2)) break;
-      var yy = gainY(median(vals), H);
-      if (started) g.lineTo(X(n), yy); else { g.moveTo(X(n), yy); started = true; }
+    var opened = false, lastX = 0;
+    for (p = 0; p < HIT_COLS; p++){
+      if (isNaN(medLevel[p])) continue;
+      var lx = xOf(tOf(p)), ly = bottom - Math.min(1, Math.max(0, (30 + medLevel[p]) / 30)) * (bottom - levelTop);
+      if (!opened){ g.moveTo(lx, bottom); opened = true; }
+      g.lineTo(lx, ly); lastX = lx;
     }
-    g.strokeStyle = C.curve; g.lineWidth = 2; g.stroke();
+    if (opened){ g.lineTo(lastX, bottom); g.closePath(); g.fillStyle = 'rgba(' + C.before + ',.35)'; g.fill(); }
+
+    // The onset, 10 / 50 / 100 / 200 / 400 ms; no label on 100.
+    g.font = '10px ' + FONT; g.textBaseline = 'top';
+    [0, 10, 50, 100, 200, 400].forEach(function(ms){
+      var x = xOf(ms);
+      g.fillStyle = ms ? C.grid + '.25)' : C.zero + '.6)';
+      g.fillRect(x, top, ms ? Math.max(.7, .7 * s) : 1, bottom - top);
+      if (ms === 100) return;
+      g.fillStyle = C.sub;
+      if (ms === 400){ g.textAlign = 'right'; g.fillText('400 ms', x, bottom + 5); }
+      else { g.textAlign = 'center'; g.fillText(String(ms), x, bottom + 5); }
+    });
+    scale(g, H, s, x0, x1);
+
+    // Never above 0 dB: where a hit lands on a release still coming back,
+    // the plug-in holds the line at 0 too.
+    function curve(v){
+      var started = false, was = -1, sum = 0, cnt = 0;
+      g.beginPath();
+      function flush(){
+        if (!cnt) return;
+        var y = top - Math.min(0, sum / cnt) * ppdb;
+        if (started) g.lineTo(was, y); else { g.moveTo(was, y); started = true; }
+        sum = 0; cnt = 0;
+      }
+      for (var q = 0; q < HIT_COLS; q++){
+        if (isNaN(v[q])) { flush(); started = false; continue; }
+        var x = Math.round(xOf(tOf(q)));
+        if (x !== was) flush();
+        was = x; sum += Math.min(1, v[q]); cnt++;
+      }
+      flush();
+    }
+    g.save(); g.beginPath(); g.rect(x0, top - 2, x1 - x0, band - top + 2); g.clip();
+    g.lineJoin = 'round'; g.lineCap = 'round';
+    g.strokeStyle = 'rgba(' + C.cut + ',.35)'; g.lineWidth = Math.max(.9, s);
+    hits.forEach(function(h){ curve(h.shape); g.stroke(); });
+
+    // The typical shape fades out over its end, from where the first hit
+    // drops out, over 16 to 60 pixels.
+    var end = xOf(lastShown), from = isNaN(firstGone) ? end : xOf(firstGone);
+    from = Math.max(end - 60 * s, Math.min(end - 16 * s, from));
+    var fade = g.createLinearGradient(from, 0, end, 0);
+    fade.addColorStop(0, 'rgba(43,50,56,1)'); fade.addColorStop(1, 'rgba(43,50,56,0)');
+    curve(medShape); g.strokeStyle = fade; g.lineWidth = Math.max(1.8, 2.2 * s); g.stroke();
+    g.restore();
   }
 
   function updateFloor(dt){
-    var deepest = 0;
-    for (var i = 0; i < VIEW; i++) if (R_gain[i] < deepest) deepest = R_gain[i];
-    // The scale goes 12 dB deeper when the line passes it by a dB.
+    var deepest = 0, i;
+    for (i = 0; i < VIEW; i++) if (R_gain[i] < deepest) deepest = R_gain[i];
+    // 12 dB deeper at once when the line passes the floor by a dB; back
+    // only after 30 seconds in which nothing needed it.
     var want = 24; while (-deepest > want + 1 && want < 60) want += 12;
-    floorDb = want;
+    if (want >= floorDb){ floorDb = want; neededAt = clock; }
+    else if (clock - neededAt > 30){ floorDb = want; neededAt = clock; }
     shownFloor += (floorDb - shownFloor) * (1 - Math.exp(-dt / .25));
+    if (Math.abs(floorDb - shownFloor) < .05) shownFloor = floorDb;
   }
 
   function draw(){ drawScroll(); drawHits(); }
