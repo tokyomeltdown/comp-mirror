@@ -149,7 +149,7 @@ body.lang-ja .hero h1{font-size:clamp(32px,5.6vw,60px);line-height:1.14;letter-s
 .demo .say{display:flex;justify-content:flex-end;margin-top:14px}
 
 /* A real screenshot, under the drawing. */
-.shot{margin-top:56px}
+.shot{width:84%;margin:64px 0 0 8%}
 .shot img{width:100%;height:auto;display:block;border-radius:10px;box-shadow:0 0 0 1px rgba(27,31,35,.10),0 18px 40px -26px rgba(27,31,35,.5)}
 .shot figcaption{margin-top:10px;color:var(--muted);font-size:12.5px}
 
@@ -166,6 +166,8 @@ body.lang-ja .hero h1{font-size:clamp(32px,5.6vw,60px);line-height:1.14;letter-s
 .buy .until{color:var(--cutText);font-weight:600;font-size:15px;margin-top:10px}
 .buy ul{list-style:none;display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:16px;font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--sub)}
 .buy .side p{color:var(--sub);font-size:15px;margin-bottom:22px}
+.buy .side p.lead{color:var(--ink);font-size:16px;font-weight:500;margin-bottom:10px}
+html.is-free .buy .side p.lead+p{font-size:14px;color:var(--muted)}
 
 /* ---------------- spec ---------------- */
 .spec{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:72px}
@@ -201,6 +203,7 @@ footer a:hover{color:var(--ink)}
 @media(max-width:620px){
   .cobody{padding:14px 12px 12px}
   .cowin{width:100%;margin-left:0}
+  .shot{width:100%;margin-left:0}
   .inserts .say2{display:none}
   .slot{font-size:11.5px;padding:5px 9px}
   .cohead .t{font-size:12px;letter-spacing:.14em}
@@ -245,12 +248,12 @@ footer a:hover{color:var(--ink)}
   <h1><span class="en">Compression, understood.</span><span class="ja">コンプレッションを<br>知る。</span></h1>
   <p class="lede">
     <span class="en">What your compressor really does to every hit, measured from the sound. Put one Comp Mirror before it and one after.</span>
-    <span class="ja">コンプが実際にしていることを、音から測って描きます。コンプの前と後ろに Comp Mirror を 1 つずつ挿すだけです。</span>
+    <span class="ja">コンプが実際にしていることを、音から測って描きます。コンプの前と後ろに Comp Mirror を 1つずつ挿すだけです。</span>
   </p>
   <div class="cta">
     <a class="btn solid big paid" href="https://tokyomeltdown.gumroad.com/l/compmirror" target="_blank" rel="noopener"><span class="en">Buy — $18</span><span class="ja">購入する — $18</span></a>
     <a class="btn solid big free" href="https://tokyomeltdown.gumroad.com/l/compmirror/COMPMIRROR" target="_blank" rel="noopener"><span class="en">Get it free</span><span class="ja">無料で入手する</span></a>
-    <a class="btn ghost big dl" href="https://github.com/tokyomeltdown/comp-mirror/releases/latest/download/CompMirror.pkg"><span class="en">Try 14 days free</span><span class="ja">14日間ためす</span></a>
+    <a class="btn ghost big dl" href="https://github.com/tokyomeltdown/comp-mirror/releases/latest/download/CompMirror.pkg"><span class="paid"><span class="en">Try 14 days free</span><span class="ja">14日間ためす</span></span><span class="free"><span class="en">Try it first</span><span class="ja">先に試す</span></span></a>
   </div>
   <p class="offer free"><s class="was">$18</s> <b><span class="en">Free</span><span class="ja">無料</span></b> <span class="en">until December 8, then $18</span><span class="ja">12月8日まで。以降 $18</span></p>
   <p class="fine">macOS 12+ · Apple silicon &amp; Intel · <span class="en">Signed &amp; notarized</span><span class="ja">署名・公証済み</span></p>
@@ -265,7 +268,7 @@ footer a:hover{color:var(--ink)}
     <div class="inserts">
       <span class="k"><span class="en">Inserts</span><span class="ja">インサート</span></span>
       <span class="slots"><span class="slot me">Comp Mirror</span><span class="arr">→</span><span class="slot">Analog Compressor</span><span class="arr">→</span><span class="slot me">Comp Mirror</span></span>
-      <span class="say2"><span class="en">One before your compressor, one after</span><span class="ja">コンプの前後に 1 つずつ</span></span>
+      <span class="say2"><span class="en">One before your compressor, one after</span><span class="ja">コンプの前後に 1つずつ</span></span>
     </div>
     <div class="win">
       <div class="tbar"><i></i><i></i><i></i><span>Comp Mirror</span></div>
@@ -275,7 +278,7 @@ footer a:hover{color:var(--ink)}
           <span><b>Comp</b> Mirror</span>
         </span>
         <div class="group">
-          <div class="fig" tabindex="0"><div class="n">AVG GR</div><div class="v"><span id="f-avg">—</span><small>dB</small></div><div class="tip"><span class="en">How much the compressor turned down on average over the last 4 seconds while there was sound: about where its own meter sits.</span><span class="ja">直近 4 秒の、音が鳴っている間にコンプが下げた量の平均です。コンプ自身のメーターに近い値です。</span></div></div>
+          <div class="fig" tabindex="0"><div class="n">AVG GR</div><div class="v"><span id="f-avg">—</span><small>dB</small></div><div class="tip"><span class="en">How much the compressor turned down on average over the last 4 seconds while there was sound: about where its own meter sits.</span><span class="ja">直近 4秒の、音が鳴っている間にコンプが下げた量の平均です。コンプ自身のメーターに近い値です。</span></div></div>
           <div class="fig" tabindex="0"><div class="n">CREST</div><div class="v"><span id="f-crest">—</span><small>dB</small></div><div class="tip"><span class="en">How much more the peaks stand out after the compressor than before. Minus: it flattened them. Plus: the hits punch through more.</span><span class="ja">コンプの前と比べて、ピークがどれだけ目立つようになったか。マイナスはならされた、プラスはアタックが前に出たということです。</span></div></div>
         </div>
         <div class="group second">
@@ -319,7 +322,7 @@ footer a:hover{color:var(--ink)}
   <div>
     <div class="k">02 · <span class="en">Hits</span><span class="ja">かかり方</span></div>
     <h3><span class="en">See the hit.</span><span class="ja">コンプのかかり方が見える。</span></h3>
-    <p><span class="en">The last 16 hits, lined up where they start: how fast it grabs, how far it goes, how it lets go.</span><span class="ja">直近 16 回の音の立ち上がりを、そろえて重ねます。どれだけ速くつかみ、どこまで下げ、どう戻すか。</span></p>
+    <p><span class="en">The last 16 hits, lined up where they start: how fast it grabs, how far it goes, how it lets go.</span><span class="ja">直近 16回の音の立ち上がりを、そろえて重ねます。どれだけ速くつかみ、どこまで下げ、どう戻すか。</span></p>
   </div>
   <div>
     <div class="k">03 · <span class="en">Pass-through</span><span class="ja">素通し</span></div>
@@ -330,7 +333,7 @@ footer a:hover{color:var(--ink)}
 
 <section class="buy" id="buy">
   <div>
-    <div class="k"><span class="en">AU, VST3 and AAX, one licence</span><span class="ja">AU・VST3・AAX、1 つのライセンスで</span></div>
+    <div class="k"><span class="en">AU, VST3 and AAX, one licence</span><span class="ja">AU・VST3・AAX、1つのライセンスで</span></div>
     <div class="price paid">$18</div>
     <div class="price free"><s class="was">$18</s><span class="en">Free</span><span class="ja">無料</span></div>
     <p class="until free"><span class="en">until December 8, then $18</span><span class="ja">12月8日まで。以降 $18</span></p>
@@ -342,7 +345,7 @@ footer a:hover{color:var(--ink)}
     </ul>
   </div>
   <div class="side">
-    <p class="free"><span class="en">Get your licence key free until December 8. It keeps working after that, updates included.</span><span class="ja">12月8日までは、ライセンスキーを無料で受け取れます。その後も使い続けられ、アップデートも無料です。</span></p>
+    <p class="free lead"><span class="en">Get your licence key free until December 8. It keeps working after that, updates included.</span><span class="ja">12月8日までは、ライセンスキーを無料で受け取れます。その後も使い続けられ、アップデートも無料です。</span></p>
     <p><span class="en">Every feature, free for 14 days. No account.<br>When the trial ends, measuring stops and the sound keeps playing.</span><span class="ja">14日間、すべての機能を試せます。アカウントは要りません。<br>トライアルが終了すると測定は止まりますが、音はそのまま流れ続けます。</span></p>
     <div class="cta" style="margin-top:0">
       <a class="btn solid big paid" href="https://tokyomeltdown.gumroad.com/l/compmirror" target="_blank" rel="noopener"><span class="en">Buy — $18</span><span class="ja">購入する — $18</span></a>
@@ -366,7 +369,7 @@ footer a:hover{color:var(--ink)}
   <div>
     <div class="k"><span class="en">Setup</span><span class="ja">設定</span></div>
     <div class="v"><span class="en">None</span><span class="ja">不要</span></div>
-    <p><span class="en">The pair finds each other on the track and lines the two sides up.</span><span class="ja">2 つが同じトラックで互いを見つけ、前後のタイミングを合わせます。</span></p>
+    <p><span class="en">The pair finds each other on the track and lines the two sides up.</span><span class="ja">2つが同じトラックで互いを見つけ、前後のタイミングを合わせます。</span></p>
   </div>
   <div>
     <div class="k"><span class="en">Privacy</span><span class="ja">プライバシー</span></div>
@@ -466,8 +469,8 @@ footer a:hover{color:var(--ink)}
   })();
 
   /* ------------------------------------------------ the stand-in compressor, on that level */
-  var S = { thr: -18, ratio: 4, att: 10, rel: 120 };
-  var DEF = { thr: -18, ratio: 4, att: 10, rel: 120 };
+  var S = { thr: -24, ratio: 4, att: 10, rel: 120 };
+  var DEF = { thr: -24, ratio: 4, att: 10, rel: 120 };
   var pos = 0, gain = 0, clock = 0;
   var VIEW = Math.round(4 / COL);                        // the last four seconds on screen
   var R_gain = new Float32Array(VIEW), R_before = new Float32Array(VIEW), R_after = new Float32Array(VIEW), head = 0;
