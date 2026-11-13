@@ -6,7 +6,7 @@ Put one Comp Mirror before your compressor and one after it, and you'll see what
 
 → **[Download the free trial](https://github.com/tokyomeltdown/comp-mirror/releases/latest/download/CompMirror.pkg)** — 14 days, every feature, no account
 → **[Landing page](https://tokyomeltdown.github.io/comp-mirror/)**
-→ **[Buy on Gumroad — $18](https://tokyomeltdown.gumroad.com/l/compmirror)**
+→ **[Buy on Gumroad — $29](https://tokyomeltdown.gumroad.com/l/compmirror)**
 
 ---
 
