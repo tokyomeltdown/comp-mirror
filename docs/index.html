@@ -259,11 +259,12 @@ footer a:hover{color:var(--ink)}
   <p class="fine">macOS 12+ · Apple silicon &amp; Intel · <span class="en">Signed &amp; notarized</span><span class="ja">署名・公証済み</span></p>
 
   <!-- A drawing of the plug-in rather than a screenshot, in its colours and
-       with its rules: the last four seconds, make-up left out, the last 16
+       with its rules: the last four seconds, make-up left out, the last 8
        hits lined up where they start, and the four figures worked out as the
-       plug-in works them out (AVG GR and CREST over four seconds, DEPTH and
-       PEAK SHAVE the median of the last eight hits). The compressor is a
-       stand-in, a plain feed-forward one, run on a drawn envelope. -->
+       plug-in works them out (AVG GR and CREST CHANGE over four seconds, GR
+       PER HIT and GR AT PEAK the median of the last eight hits). The
+       compressor is a stand-in, a plain feed-forward one, run on a drawn
+       envelope. -->
   <div class="demo">
     <div class="inserts">
       <span class="k"><span class="en">Inserts</span><span class="ja">インサート</span></span>
@@ -278,17 +279,17 @@ footer a:hover{color:var(--ink)}
           <span><b>Comp</b> Mirror</span>
         </span>
         <div class="group">
-          <div class="fig" tabindex="0"><div class="n">AVG GR</div><div class="v"><span id="f-avg">—</span><small>dB</small></div><div class="tip"><span class="en">How much the compressor turned down on average over the last 4 seconds while there was sound: about where its own meter sits.</span><span class="ja">直近 4秒の、音が鳴っている間にコンプが下げた量の平均です。コンプ自身のメーターに近い値です。</span></div></div>
-          <div class="fig" tabindex="0"><div class="n">CREST</div><div class="v"><span id="f-crest">—</span><small>dB</small></div><div class="tip"><span class="en">How much more the peaks stand out after the compressor than before. Minus: it flattened them. Plus: the hits punch through more.</span><span class="ja">コンプの前と比べて、ピークがどれだけ目立つようになったか。マイナスはならされた、プラスはアタックが前に出たということです。</span></div></div>
+          <div class="fig" tabindex="0"><div class="n">AVG GR</div><div class="v"><span id="f-avg">—</span><small>dB</small></div><div class="tip"><span class="en">How much the compressor turned down on average over the last 4 seconds, where it was measured: about where its own meter sits.</span><span class="ja">直近 4秒の、測れたところでコンプが下げた量の平均です。コンプ自身のメーターに近い値です。</span></div></div>
+          <div class="fig" tabindex="0"><div class="n">CREST CHANGE</div><div class="v"><span id="f-crest">—</span><small>dB</small></div><div class="tip"><span class="en">How much more the peaks stand out after the compressor than before. Minus: it flattened them. Plus: the hits punch through more.</span><span class="ja">コンプの前と比べて、ピークがどれだけ目立つようになったか。マイナスはならされた、プラスはアタックが前に出たということです。</span></div></div>
         </div>
         <div class="group second">
-          <div class="fig" tabindex="0"><div class="n">DEPTH</div><div class="v"><span id="f-depth">—</span><small>dB</small></div><div class="tip"><span class="en">How much further the compressor turned down on each hit.</span><span class="ja">音の立ち上がりごとに、コンプがさらにどれだけ下げたか。</span></div></div>
-          <div class="fig" tabindex="0"><div class="n">PEAK SHAVE</div><div class="v"><span id="f-shave">—</span><small>dB</small></div><div class="tip"><span class="en">How much it had already taken off when the hit peaked. Less than DEPTH means the transient got through.</span><span class="ja">音のピークの時点で、どれだけ下げ終えていたか。DEPTH より小さければ、トランジェントが抜けたということです。</span></div></div>
+          <div class="fig" tabindex="0"><div class="n">GR PER HIT</div><div class="v"><span id="f-depth">—</span><small>dB</small></div><div class="tip"><span class="en">How much further the compressor turned down on each hit.</span><span class="ja">音の立ち上がりごとに、コンプがさらにどれだけ下げたか。</span></div></div>
+          <div class="fig" tabindex="0"><div class="n">GR AT PEAK</div><div class="v"><span id="f-shave">—</span><small>dB</small></div><div class="tip"><span class="en">How much it had already taken off when the hit peaked. Less than GR PER HIT: it was not yet at its deepest when the hit peaked.</span><span class="ja">音のピークの時点で、どれだけ下げ終えていたか。GR PER HIT より小さければ、ピークの時点ではまだ一番深いところまで下げていなかったということです。</span></div></div>
         </div>
       </div>
       <div class="plots">
         <canvas id="cv" role="img" aria-label="The gain reduction over the last four seconds, with the music before and after the compressor under it"></canvas>
-        <canvas id="hv" role="img" aria-label="The gain reduction of the last 16 hits, lined up where each one starts"></canvas>
+        <canvas id="hv" role="img" aria-label="The gain reduction of the last 8 hits, lined up where each one starts"></canvas>
       </div>
     </div>
     <div class="gap"></div>
@@ -308,7 +309,7 @@ footer a:hover{color:var(--ink)}
   </div>
 
   <figure class="shot">
-    <img src="img/shot-mirror.jpg" width="2200" height="1120" loading="lazy" decoding="async" alt="Comp Mirror after a compressor: the gain reduction, the music before and after it, and the last 16 hits">
+    <img src="img/shot-mirror.jpg" width="2200" height="1120" loading="lazy" decoding="async" alt="Comp Mirror after a compressor: the gain reduction, the music before and after it, and the last 8 hits">
     <figcaption><span class="en">A screenshot of the plug-in.</span><span class="ja">実際の画面です。</span></figcaption>
   </figure>
 </section>
@@ -322,7 +323,7 @@ footer a:hover{color:var(--ink)}
   <div>
     <div class="k">02 · <span class="en">Hits</span><span class="ja">かかり方</span></div>
     <h3><span class="en">See the hit.</span><span class="ja">コンプのかかり方が見える。</span></h3>
-    <p><span class="en">The last 16 hits, lined up where they start: how fast it grabs, how far it goes, how it lets go.</span><span class="ja">直近 16回の音の立ち上がりを、そろえて重ねます。どれだけ速くつかみ、どこまで下げ、どう戻すか。</span></p>
+    <p><span class="en">The last 8 hits, lined up where they start, their typical shape drawn thick: how fast it grabs, how far it goes, how it lets go.</span><span class="ja">直近 8回の音の立ち上がりをそろえて重ね、典型的な形を太線で描きます。どれだけ速くつかみ、どこまで下げ、どう戻すか。</span></p>
   </div>
   <div>
     <div class="k">03 · <span class="en">Pass-through</span><span class="ja">素通し</span></div>
@@ -419,7 +420,7 @@ footer a:hover{color:var(--ink)}
   /* ------------------------------------------------ the trial download */
   // The browser's own confirmation before the package downloads. The version and size are written here by hand:
   // change them with each release (Finder's size, in decimal megabytes).
-  var DL = { version: '1.0.0', size: 9 };
+  var DL = { version: '1.1.0', size: 9 };
   document.querySelectorAll('a.dl').forEach(function(a){
     a.addEventListener('click', function(e){
       var ja = document.body.classList.contains('lang-ja');
@@ -479,7 +480,7 @@ footer a:hover{color:var(--ink)}
   // hit ending at the next onset; depth in 300 ms, the shave at the input's
   // peak in the first 20 ms, and nothing under 1 dB counts as a hit.
   var PRE = 5, HIT_COLS = PRE + 200, DEPTH_COLS = 150, SHAVE_COLS = 10, MIN_DEPTH = 1;
-  var SLOTS = 16, LAST = 8;
+  var SLOTS = 8, LAST = 8;
   var hits = [], active = null, past = new Float32Array(PRE), pastAt = 0;
 
   function finishHit(){
@@ -568,7 +569,10 @@ footer a:hover{color:var(--ink)}
   var C = { zero:'rgba(124,132,142,', grid:'rgba(154,160,168,', sub:'#878e96', curve:'#2b3238', cut:'47,144,136', before:'185,190,196', after:'92,99,107', back:'#e9eaec' };
   var cv = document.getElementById('cv'), hv = document.getElementById('hv');
   var cx = cv.getContext('2d'), hx = hv.getContext('2d');
-  var CW = 0, CH = 0, HW = 0, HH = 0, DPR = 1, floorDb = 24, shownFloor = 24, neededAt = 0;
+  var CW = 0, CH = 0, HW = 0, HH = 0, DPR = 1, floorDb = 12, shownFloor = 12, neededAt = 0;
+  // The typical hit's own floor (GainScale::PanelFloor): its steps, the time
+  // each was last needed, held 10 s.
+  var PANEL = [6, 9, 12, 18, 24, 30, 36, 48, 60], panelAt = PANEL.map(function(){ return -1e9; }), panelFloor = 6, shownPanel = 6;
 
   function resize(){
     DPR = Math.min(window.devicePixelRatio || 1, 2);
@@ -583,17 +587,25 @@ footer a:hover{color:var(--ink)}
     g.font = '700 10px ' + FONT; g.fillStyle = C.sub; g.textAlign = right ? 'right' : 'left'; g.textBaseline = 'middle';
     g.fillText(s, x, 15);
   }
+  // The small words after a title, as the plug-in draws them.
+  function suffix(g, s, x, after){
+    g.font = '700 10px ' + FONT; var w = g.measureText(after).width;
+    g.font = '10px ' + FONT; g.fillStyle = C.sub; g.textAlign = 'left'; g.textBaseline = 'middle';
+    g.fillText(s, x + w + 5, 15);
+    return x + w + 5 + g.measureText(s).width;
+  }
   function topY(H){ return Math.max(TOP * H, 26); }
   function floorY(H){ return Math.min(FLOOR * H, H - 20); }
   function splitY(H){ return SPLIT * H; }
   function zoomOf(W, w){ return Math.min(1, W / w); }
-  function dbPx(H, s){ return (splitY(H) - topY(H) - 10 * s) / shownFloor; }
+  function dbPx(H, s, floor){ return (splitY(H) - topY(H) - 10 * s) / (floor || shownFloor); }
 
   /** The dB lines, to the end of the plot, the figures past it. */
-  function scale(g, H, s, left, right){
-    var ppdb = dbPx(H, s), top = topY(H), stepDb = shownFloor > 36.5 ? 12 : 6;
+  function scale(g, H, s, left, right, floor){
+    floor = floor || shownFloor;
+    var ppdb = dbPx(H, s, floor), top = topY(H), stepDb = floor > 36.5 ? 12 : floor > 12.5 ? 6 : 3;
     g.font = '11px ' + FONT; g.textAlign = 'left'; g.textBaseline = 'middle';
-    for (var d = 0; d <= shownFloor + .01; d += stepDb){
+    for (var d = 0; d <= floor + .01; d += stepDb){
       var y = top + d * ppdb;
       g.fillStyle = d === 0 ? C.zero + '.8)' : C.grid + '.3)';
       g.fillRect(left, y, right - left, d === 0 ? 1 : Math.max(.7, .7 * s));
@@ -667,6 +679,7 @@ footer a:hover{color:var(--ink)}
     // The grid over the fill, as the labels and lines read in the window.
     scale(g, H, s, 0, right);
     title(g, 'GAIN REDUCTION', 18 * s);
+    suffix(g, '\u00b7 last 4 seconds', 18 * s, 'GAIN REDUCTION');
 
     // The music under it, full scale at the top and 48 dB below at the bottom.
     var wTop = band + 8 * s, wBottom = floorY(H), range = 48;
@@ -699,7 +712,7 @@ footer a:hover{color:var(--ink)}
     g.fillStyle = C.back; g.fillRect(0, 0, 3, H);
 
     var x0 = 18 * Math.max(s, .75), x1 = W - 36 * Math.max(s, .75), top = topY(H), band = splitY(H), bottom = floorY(H);
-    var ppdb = dbPx(H, s), levelTop = band + 8 * s;
+    var ppdb = dbPx(H, s, shownPanel), levelTop = band + 8 * s;
     // Two parts: the 10 ms before the onset and the first 50 ms on the left
     // half, the rest to 400 ms on the right.
     function xOf(t){
@@ -708,8 +721,11 @@ footer a:hover{color:var(--ink)}
     }
     function tOf(col){ return (col - PRE) * COL * 1000; }
 
-    title(g, 'HIT ENVELOPE', x0);
-    g.font = '10px ' + FONT; g.textAlign = 'right'; g.fillText('last ' + SLOTS, x1, 15);
+    title(g, 'TYPICAL HIT', x0);
+    var said = suffix(g, '\u00b7 last ' + SLOTS, x0, 'TYPICAL HIT');
+    // Only where it fits: the demo's panel is narrower than the plug-in's.
+    g.font = '10px ' + FONT; g.textAlign = 'right';
+    if (x1 - g.measureText('0 = just before the hit').width > said + 8) g.fillText('0 = just before the hit', x1, 15);
 
     n = hits.length;
     if (!n){
@@ -729,7 +745,7 @@ footer a:hover{color:var(--ink)}
       var t = tOf(p);
       ended = ended || (t > 0 && vs.length * 3 < n * 2);
       if (t > 0 && vs.length < n && isNaN(firstGone)) firstGone = t;
-      if (!ended && vs.length){ medShape[p] = medianHigh(vs); lastShown = t; }
+      if (!ended && vs.length){ medShape[p] = median(vs); lastShown = t; }
       if (ls.length) medLevel[p] = medianHigh(ls);
     }
 
@@ -755,7 +771,7 @@ footer a:hover{color:var(--ink)}
       if (ms === 400){ g.textAlign = 'right'; g.fillText('400 ms', x, bottom + 5); }
       else { g.textAlign = 'center'; g.fillText(String(ms), x, bottom + 5); }
     });
-    scale(g, H, s, x0, x1);
+    scale(g, H, s, x0, x1, shownPanel);
 
     // Never above 0 dB: where a hit lands on a release still coming back,
     // the plug-in holds the line at 0 too.
@@ -789,6 +805,15 @@ footer a:hover{color:var(--ink)}
     fade.addColorStop(0, 'rgba(43,50,56,1)'); fade.addColorStop(1, 'rgba(43,50,56,0)');
     curve(medShape); g.strokeStyle = fade; g.lineWidth = Math.max(1.8, 2.2 * s); g.stroke();
     g.restore();
+
+    // GR PER HIT and GR AT PEAK at the scale's edge, not joined.
+    var last = hits.slice(-LAST), mh = 2.4 * Math.max(s, .75);
+    if (last.length){
+      [[median(last.map(function(h){ return h.depth; })), C.curve], [median(last.map(function(h){ return h.shave; })), 'rgb(' + C.cut + ')']].forEach(function(m){
+        if (!(m[0] >= -.5 * mh / ppdb) || m[0] > shownPanel) return;
+        g.fillStyle = m[1]; g.fillRect(x1 - 7 * Math.max(s, .75), top + m[0] * ppdb - .5 * mh, 7 * Math.max(s, .75), mh);
+      });
+    }
   }
 
   function updateFloor(dt){
@@ -796,11 +821,28 @@ footer a:hover{color:var(--ink)}
     for (i = 0; i < VIEW; i++) if (R_gain[i] < deepest) deepest = R_gain[i];
     // 12 dB deeper at once when the line passes the floor by a dB; back
     // only after 30 seconds in which nothing needed it.
-    var want = 24; while (-deepest > want + 1 && want < 60) want += 12;
+    var want = 12; while (-deepest > want + 1 && want < 60) want += 12;
     if (want >= floorDb){ floorDb = want; neededAt = clock; }
     else if (clock - neededAt > 30){ floorDb = want; neededAt = clock; }
     shownFloor += (floorDb - shownFloor) * (1 - Math.exp(-dt / .25));
     if (Math.abs(floorDb - shownFloor) < .05) shownFloor = floorDb;
+
+    // The typical hit's: every thin line it draws and the two marks, a third
+    // of the step into a floor as room (1 dB into the first), held 10 s.
+    if (!hits.length){ panelAt = PANEL.map(function(){ return -1e9; }); panelFloor = shownPanel = PANEL[0]; return; }
+    var lowest = 0, last = hits.slice(-LAST);
+    hits.forEach(function(h){ for (var q = 0; q < HIT_COLS; q++) if (h.shape[q] < lowest) lowest = h.shape[q]; });
+    lowest = Math.min(lowest, -median(last.map(function(h){ return h.depth; })), -median(last.map(function(h){ return h.shave; })));
+    var k = PANEL.length - 1;
+    for (i = 0; i < PANEL.length - 1; i++){
+      var room = i ? (PANEL[i] - PANEL[i - 1]) / 3 : 1;
+      if (-lowest <= PANEL[i] - room){ k = i; break; }
+    }
+    panelAt[k] = clock;
+    panelFloor = PANEL[0];
+    for (i = PANEL.length - 1; i > 0; i--) if (clock - panelAt[i] <= 10){ panelFloor = PANEL[i]; break; }
+    shownPanel += (panelFloor - shownPanel) * (1 - Math.exp(-dt / .25));
+    if (Math.abs(panelFloor - shownPanel) < .05) shownPanel = panelFloor;
   }
 
   function draw(){ drawScroll(); drawHits(); }
