@@ -14,8 +14,8 @@ Put one Comp Mirror before your compressor and one after it, and you'll see what
 
 - **Measures from the sound.** It compares the audio before and after your compressor, so any compressor shows up the same way, with a meter or without one.
 - **The gain reduction, moment by moment.** The last 4 seconds scroll past, with the music before and after under the line.
-- **The shape of a hit.** The last 16 hits, lined up where they start.
-- **Four numbers.** AVG GR, CREST, DEPTH and PEAK SHAVE.
+- **The typical hit.** The last 8 hits, lined up where they start, their typical shape drawn thick.
+- **Four numbers.** AVG GR, CREST CHANGE, GR PER HIT and GR AT PEAK.
 - **Never touches your sound.** The audio passes through both instances as it came, and it adds no latency.
 
 AU, VST3 and AAX for macOS 12 or later, on Apple silicon and Intel. Signed and notarized by Apple.
